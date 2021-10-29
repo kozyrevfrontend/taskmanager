@@ -1,5 +1,7 @@
 "use strict";
 
+const TASK_COUNT = 3;
+
 const createSiteMenuTemplate = () => {
   return (
     `<section class="control__btn-wrap">
@@ -93,20 +95,6 @@ const createFilterTemplate = () => {
       <label for="filter__archive" class="filter__label"
         >Archive <span class="filter__archive-count">115</span></label
       >
-    </section>`
-  );
-}
-
-const createBoardTemplate = () => {
-  return (
-    `<section class="board container">
-        <div class="board__filter-list">
-          <a href="#" class="board__filter">SORT BY DEFAULT</a>
-          <a href="#" class="board__filter">SORT BY DATE up</a>
-          <a href="#" class="board__filter">SORT BY DATE down</a>
-        </div>
-
-      <div class="board__tasks"></div>
     </section>`
   );
 }
@@ -376,7 +364,18 @@ const render = (container, template, place = `beforeend`) => {
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
+
+render(siteHeaderElement, createSiteMenuTemplate());
+render(siteMainElement, createFilterTemplate());
+render(siteMainElement, createBoardTemplate())
+
 const taskListElement = siteMainElement.querySelector(`.board__tasks`);
 const boardElement = siteMainElement.querySelector(`.board`);
 
-render(siteHeaderElement, createSiteMenuTemplate());
+render(taskListElement, createTaskEditTemplate());
+
+for (let i = 0; i < TASK_COUNT; i++) {
+  render(taskListElement, createTaskTemplate());
+}
+
+render(boardElement, createLoadMoreButtonTemplate());
